@@ -7,8 +7,8 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # nltk
 import nltk
-# nltk.download('stopwords')
-# nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt')
 from nltk.corpus import stopwords
 from  nltk.stem import SnowballStemmer
 from nltk.tokenize import word_tokenize
