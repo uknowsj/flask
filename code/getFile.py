@@ -4,9 +4,6 @@ import pandas as pd
 from gridfs import GridFS
 # util
 import io
-
-#URI
-
 import os
 
 class MongoGridFS:
@@ -18,28 +15,20 @@ class MongoGridFS:
         self.fs = GridFS(self.db)
     # def put(self, data, **kwargs):
     #     self.fs.put(data, **kwargs)
-    def getfile(self):
+    def findFile(self):
         return self.db.fs.files.find()
-    def get(self, filename):
-        content = self.fs.get_version(filename).read()
+    def get(self, filename): 
+        content = self.fs.get_version(filename).read() #get grifs file from mongoDB
         content = content.decode("utf-8") #필수!
-        file = io.StringIO(content)
-        df = pd.read_csv(file,sep="\n",names=['data'])
-        file.close()
-        return df
-
+        return content #string으로 반환
+    
 def getFileFromDB(filename):
     # 객체생성 접속
-    o = MongoGridFS(os.environ["mongoURI"])
+    # o = MongoGridFS(os.environ["mongoURI"])
+    o = MongoGridFS("mongodb+srv://yang:yang0803@test.xgkqo.mongodb.net/test?retryWrites=true&w=majority")
     # db connect
     o.setDB('test')
     # GridFS 객체 생성
     o.setGridFS()
-    # hello.txt 파일등록
-    # o.put('hello.txt', filename="hello.txt")
-    # 가져오기
-    # ob = o.getfile()
-    # for i in ob:
-    #     print(i)
     ret = o.get(filename)
     return ret
