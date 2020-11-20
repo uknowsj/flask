@@ -59,7 +59,7 @@ BATCH_SIZE = 1024
 POSITIVE = "POSITIVE"
 NEGATIVE = "NEGATIVE"
 NEUTRAL = "NEUTRAL"
-SENTIMENT_THRESHOLDS = (0.4, 0.7)
+SENTIMENT_THRESHOLDS = (0.35, 0.7)
 
 ####
 ###
@@ -69,12 +69,12 @@ SENTIMENT_THRESHOLDS = (0.4, 0.7)
 #Learned Tokenizer import
 tk = Tokenizer(num_words=VOCAB_SIZE)
 with open('../modelData/wordIndex.json') as json_file:
-  word_index = json.load(json_file)
-  tk.word_index = word_index
+    word_index = json.load(json_file)
+    tk.word_index = word_index
 
 #Load Model
-# model = load_model('../modelData/pruned_tCNN.h5')
-model = load_model('../modelData/pruned80_tCNN.h5')
+model = load_model('../modelData/text-CNN_new.h5')
+# model = load_model('../modelData/pruned80_tCNN.h5')
 #decode function
 def decode_sentiment(score, include_neutral=True):
     if include_neutral:        
@@ -107,21 +107,6 @@ class preproc_Sentence:
     def __init__(self):
         pass
 
-    # def readTweets(request_id):
-    #     id = request_id
-    #     file_name = 'twitter_'
-    #     fileformat = '.txt'
-    #     filename = file_name + id + fileformat
-
-    #     data_path ='../data/'
-
-    #     # 분석 요청된 유명인 트윗 파일 open
-    #     with open(data_path + filename, 'r', encoding = "utf-8") as f:
-    #         tweets = pd.read_csv(f, sep = "\n", names = ['data'])
-    #     f.close()
-
-    #     return tweets
-
     def preprocTweets(tweets):        
         # URL 변환
         tweets['data'] = tweets['data'].replace(to_replace = "((www\.[^\s]+)|(http?://[^\s]+)|(https?://[^\s]+))", value = "URL ", regex = True)
@@ -146,24 +131,10 @@ class preproc_Sentence:
 class preproc_Word:
     def __init__(self):
         pass
-
-    # def readTweet(request_id):
-    #     id = request_id
-    #     file_name = 'twitter_'
-    #     fileformat = '.txt'
-    #     filename = file_name + id + fileformat
-
-    #     data_path = '../data/'
-
-    #     # 분석 요청된 유명인 트윗 파일 open
-    #     with open(data_path + filename, 'r', encoding = "utf-8") as file:
-    #         tweet = file.read()
-       
-    #     return tweet
-
-    def preprocWordTweet(tweets):
+ 
+    def preprocWordTweet(tweet):#str 형식
         #dataframe to string
-        tweet = str(tweets['data'])
+
         # 소문자 변환
         tweet = tweet.lower()
         # URL 제거
@@ -171,7 +142,7 @@ class preproc_Word:
         # 구두점 제거
         tweet = re.sub(r'[^\w\s]', '', tweet)
         # 숫자 제거
-        tweet = re.sub('\s[0-9]+', '', tweet)
+        tweet = re.sub('\s[0-9]+', '', tweet) 
         # 아이디 제거
         tweet = re.sub('@[A-Za-z0-9]+', '', tweet)
         # 이메일 제거
@@ -179,18 +150,18 @@ class preproc_Word:
 
         return tweet
     
+
     def tokenizeWord(tweet):
-        stop_words = set(stopwords.words('english')) 
         word_tokens = word_tokenize(tweet)
  
         res = []
         for w in word_tokens: 
             if w not in stop_words: 
                 res.append(w)
+
         return res
     
     def stemmerWord(res):
-        stemmer = SnowballStemmer('english')
         words = [stemmer.stem(w) for w in res]
         return words
 
@@ -202,6 +173,7 @@ class word_COUNT:
         tweet = preproc_Word.preprocWordTweet(tweets)
         res = preproc_Word.tokenizeWord(tweet)
         words = preproc_Word.stemmerWord(res)
+
         words_top = Counter(words).most_common(n=5)
         wordList =[]
         wordCountList = [] 
@@ -228,8 +200,6 @@ class tweet_SentimentAnalyse :
             # predict class로 수정 필요
             res = predict(item[1])
             df_res.loc[col] = [item[0], res['label'], res['score'],res['elapsed_time'] ]
-        #print(df_res)
-        #print()
         return df_res
 
     def countTypes(df_res):
