@@ -73,7 +73,7 @@ with open('../modelData/wordIndex.json') as json_file:
     tk.word_index = word_index
 
 #Load Model
-model = load_model('../modelData/text-CNN_new.h5')
+model = load_model('../modelData/text-CNN.h5')
 # model = load_model('../modelData/pruned80_tCNN.h5')
 #decode function
 def decode_sentiment(score, include_neutral=True):
