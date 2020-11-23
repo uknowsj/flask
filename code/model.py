@@ -157,7 +157,7 @@ class preproc_Word:
         res = []
         for w in word_tokens: 
             if w not in stop_words: 
-                if (w not in ['im','u']):
+                if (w not in ['im', 'u', 'dont', 'cant', 'us']):
                     res.append(w)
 
         return res
@@ -183,6 +183,7 @@ class word_COUNT:
             wordCountList.append(words_top[i][1])
         tmpDict={}
         resDict={}
+        tmpDict["all_worlds"]=Counter(words).most_common(n=100)
         tmpDict["words"]=wordList
         tmpDict["counts"]=wordCountList
         resDict["countWords"]=tmpDict
