@@ -210,10 +210,10 @@ class tweet_SentimentAnalyse :
         tmp1={}
         tmp1["label"]=["POSITIVE","NEGATIVE","NEUTRAL"]
         tmp1["ratio"]=[res["POSITIVE"],res["NEGATIVE"],res["NEUTRAL"]]
-        df_pos = df_res.sort_values(by="score", ascending=False).head(5)
-        df_neg = df_res.sort_values(by="score", ascending=True).head(5)
+        df_pos = df_res.sort_values(by="score", ascending=False).head(3)
+        df_neg = df_res.sort_values(by="score", ascending=True).head(3)
         df_res['cal'] = abs(df_res['score'] - 0.5)
-        df_neu = df_res.sort_values(by="cal", ascending=True).head(5)
+        df_neu = df_res.sort_values(by="cal", ascending=True).head(3)
         
         list_pos = list(df_pos['text'])
         list_neg = list(df_neg['text'])
