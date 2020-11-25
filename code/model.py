@@ -29,6 +29,7 @@ import re
 import numpy as np
 import time #수행시간 측정
 from collections import Counter
+import h5py
 
 # emoji
 import emoji
@@ -73,9 +74,19 @@ with open('../modelData/wordIndex.json') as json_file:
     tk.word_index = word_index
 
 #Load Model
+NZB_index = h5py.File('../modelData/NZBIndex.hdf5', 'r')
+NZB_index.keys()
+
+NZB1 = NZB_index.get('NZB1') # Conv1
+NZB2 = NZB_index.get('NZB2') # Conv2
+
 model = load_model('../modelData/pruned80_tCNN.h5')
 model.compile('SGD', 'mse', metrics=['accuracy'])
-# model = load_model('../modelData/pruned80_tCNN.h5')
+model.layers[1].addNZB(NZB1) 
+model.layers[4].addNZB(NZB2) 
+
+
+
 #decode function
 def decode_sentiment(score, include_neutral=True):
     if include_neutral:        
