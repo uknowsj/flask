@@ -4,7 +4,7 @@ import io
 
 def strToDF(data):
     file = io.StringIO(data) #string to dataframe으로 쓸 수 있게 임시 파일 형식으로
-    df_tweets = pd.read_csv(file,sep="\n",names=['data']) #preproc_sentence에 쓸 dataframe
+    df_tweets = pd.read_csv(file,sep="\n",names=['data'])[0:700] #preproc_sentence에 쓸 dataframe 700문장까지만 로드
     file.close()
     return df_tweets
 

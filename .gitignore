@@ -3,3 +3,6 @@ templates
 code/__pychache__/*
 __pychache__
 code/__pychache__/
+code/__pychache__/getFile.cpython-37.pyc
+code/__pychache__/model.cpython-37.pyc
+code/__pychache__/modelResult.cpython-37.pyc

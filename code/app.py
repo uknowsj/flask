@@ -20,8 +20,6 @@ def resultTest():
     if(request.method=='GET'):
         name = request.args.get('account')
         print(name)
-        print("name",name)
-        print(request.args)
         file_name = 'twitter_'
         fileformat = '.txt'
         filename = file_name + name + fileformat
