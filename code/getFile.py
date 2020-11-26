@@ -24,8 +24,8 @@ class MongoGridFS:
     
 def getFileFromDB(filename):
     # 객체생성 접속
-    # o = MongoGridFS(os.environ["mongoURI"])
-    o = MongoGridFS("mongodb+srv://yang:yang0803@test.xgkqo.mongodb.net/test?retryWrites=true&w=majority")
+    o = MongoGridFS(os.environ["mongoURI"])
+    # o = MongoGridFS("mongodb+srv://yang:yang0803@test.xgkqo.mongodb.net/test?retryWrites=true&w=majority")
     # db connect
     o.setDB('test')
     # GridFS 객체 생성
