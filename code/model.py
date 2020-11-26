@@ -219,6 +219,9 @@ class tweet_SentimentAnalyse :
         return df_res
 
     def countTypes(df_res):
+        #전체 문장 수 
+        lines = df_res.shape[0]
+
         #트윗 문장 감정비율
         res = df_res['label'].value_counts(normalize=True).mul(100).round(2).astype(str)+'%'
         tmp1={}
@@ -239,6 +242,7 @@ class tweet_SentimentAnalyse :
         tmp2["neu"]=list_neu
         
         tmp1["sentence"]=tmp2
+        tmp1["lines"]=lines
 
         resDict={}
         resDict["sentiment"]=tmp1
